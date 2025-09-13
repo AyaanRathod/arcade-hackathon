@@ -1,0 +1,510 @@
+{% extends "base.html" %}
+
+{% block title %}Email Analysis - StudyBalance AI{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div class="row align-items-center">
+        <div class="col">
+            <h1 class="page-title">
+                <i class="fas fa-chart-line text-primary me-3"></i>
+                Email Pattern Analysis
+            </h1>
+            <p class="page-subtitle">Analyze your Gmail patterns using Arcade.dev toolkit to identify stress indicators and workload distribution</p>
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-primary btn-lg" onclick="startAnalysis()">
+                <i class="fas fa-play me-2"></i>Start Analysis
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Analysis Configuration -->
+<div class="row mb-4">
+    <div class="col-lg-4">
+        <div class="config-card">
+            <div class="card-header">
+                <h5 class="card-title">
+                    <i class="fas fa-cog me-2"></i>Analysis Settings
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label for="analysisRange" class="form-label">Time Range</label>
+                    <select class="form-select" id="analysisRange">
+                        <option value="7">Last 7 days</option>
+                        <option value="14">Last 14 days</option>
+                        <option value="30">Last 30 days</option>
+                    </select>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Analysis Type</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="stressAnalysis" checked>
+                        <label class="form-check-label" for="stressAnalysis">
+                            Stress Indicators
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="workloadAnalysis" checked>
+                        <label class="form-check-label" for="workloadAnalysis">
+                            Workload Assessment
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="patternAnalysis" checked>
+                        <label class="form-check-label" for="patternAnalysis">
+                            Email Patterns
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="arcade-status">
+                    <div class="status-indicator">
+                        <i class="fas fa-circle text-success me-2"></i>
+                        <span>Arcade.dev Gmail Toolkit</span>
+                    </div>
+                    <small class="text-muted">Connected and ready</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-8">
+        <div class="preview-card">
+            <div class="card-header">
+                <h5 class="card-title">
+                    <i class="fas fa-eye me-2"></i>What We'll Analyze
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="analysis-feature">
+                            <div class="feature-icon bg-danger">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h6>Stress Keywords</h6>
+                                <p>Detect urgent, deadline, ASAP, and other stress indicators</p>
+                            </div>
+                        </div>
+                        
+                        <div class="analysis-feature">
+                            <div class="feature-icon bg-info">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h6>Peak Hours</h6>
+                                <p>Identify when you receive the most emails</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="analysis-feature">
+                            <div class="feature-icon bg-warning">
+                                <i class="fas fa-chart-bar"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h6>Workload Score</h6>
+                                <p>Calculate your email-based workload intensity</p>
+                            </div>
+                        </div>
+                        
+                        <div class="analysis-feature">
+                            <div class="feature-icon bg-success">
+                                <i class="fas fa-lightbulb"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h6>Recommendations</h6>
+                                <p>Get personalized tips to reduce email stress</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Analysis Results -->
+<div id="analysisResults" class="results-section" style="display: none;">
+    <div class="row">
+        <!-- Summary Cards -->
+        <div class="col-md-3 mb-4">
+            <div class="result-card">
+                <div class="card-body text-center">
+                    <div class="result-icon">
+                        <i class="fas fa-envelope text-primary"></i>
+                    </div>
+                    <h3 class="result-number" id="totalEmails">-</h3>
+                    <p class="result-label">Total Emails</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+            <div class="result-card">
+                <div class="card-body text-center">
+                    <div class="result-icon">
+                        <i class="fas fa-exclamation-triangle text-danger"></i>
+                    </div>
+                    <h3 class="result-number" id="urgentEmails">-</h3>
+                    <p class="result-label">Urgent Emails</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+            <div class="result-card">
+                <div class="card-body text-center">
+                    <div class="result-icon">
+                        <i class="fas fa-chart-line text-warning"></i>
+                    </div>
+                    <h3 class="result-number" id="workloadScore">-</h3>
+                    <p class="result-label">Workload Score</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+            <div class="result-card">
+                <div class="card-body text-center">
+                    <div class="result-icon">
+                        <i class="fas fa-heart-pulse text-success"></i>
+                    </div>
+                    <h3 class="result-number" id="burnoutRisk">-</h3>
+                    <p class="result-label">Burnout Risk</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Detailed Analysis -->
+    <div class="row">
+        <div class="col-lg-8">
+            <!-- Email Pattern Chart -->
+            <div class="chart-card mb-4">
+                <div class="card-header">
+                    <h5 class="card-title">
+                        <i class="fas fa-chart-area me-2"></i>Email Pattern Analysis
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="emailPatternChart" height="300"></canvas>
+                </div>
+            </div>
+            
+            <!-- Stress Keywords -->
+            <div class="keywords-card">
+                <div class="card-header">
+                    <h5 class="card-title">
+                        <i class="fas fa-tags me-2"></i>Stress Keywords Detected
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div id="stressKeywords" class="keywords-container">
+                        <!-- Keywords will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4">
+            <!-- Recommendations -->
+            <div class="recommendations-card">
+                <div class="card-header">
+                    <h5 class="card-title">
+                        <i class="fas fa-lightbulb me-2"></i>Personalized Recommendations
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div id="recommendations" class="recommendations-list">
+                        <!-- Recommendations will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quick Actions -->
+            <div class="actions-card mt-4">
+                <div class="card-header">
+                    <h5 class="card-title">
+                        <i class="fas fa-bolt me-2"></i>Quick Actions
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-success" onclick="createOptimizedSchedule()">
+                            <i class="fas fa-calendar-plus me-2"></i>Create Optimized Schedule
+                        </button>
+                        <button class="btn btn-info" onclick="sendWellnessEmail()">
+                            <i class="fas fa-heart me-2"></i>Send Wellness Nudge
+                        </button>
+                        <button class="btn btn-warning" onclick="exportAnalysis()">
+                            <i class="fas fa-download me-2"></i>Export Analysis
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Use global emailChart variable declared in main.js
+
+async function startAnalysis() {
+    const daysBack = document.getElementById('analysisRange').value;
+    
+    showLoading();
+    
+    try {
+        const response = await fetch('/api/analyze_gmail', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                days: parseInt(daysBack)
+            })
+        });
+        
+        const data = await response.json();
+        
+        // Check for authorization required (both success false and 401 status)
+        if (data.auth_required || response.status === 401 || data.error?.includes('authorization')) {
+            showAuthorizationModal(data);
+        } else if (data.success) {
+            displayAnalysisResults(data.analysis);
+            showToast('Email analysis completed successfully!', 'success');
+        } else {
+            showToast('Analysis failed: ' + data.error, 'error');
+        }
+    } catch (error) {
+        console.error('Analysis error:', error);
+        showToast('Failed to complete analysis', 'error');
+    } finally {
+        hideLoading();
+    }
+}
+
+function displayAnalysisResults(analysis) {
+    // Show results section
+    document.getElementById('analysisResults').style.display = 'block';
+    
+    // Update summary cards
+    document.getElementById('totalEmails').textContent = analysis.total_emails || 0;
+    document.getElementById('urgentEmails').textContent = analysis.urgent_emails || 0;
+    document.getElementById('workloadScore').textContent = analysis.workload_score || 0;
+    document.getElementById('burnoutRisk').textContent = analysis.burnout_risk || 'Low';
+    
+    // Display stress keywords
+    displayStressKeywords(analysis.stress_keywords_found || []);
+    
+    // Display recommendations
+    displayRecommendations(analysis.recommendations || []);
+    
+    // Create chart
+    createEmailPatternChart(analysis);
+    
+    // Scroll to results
+    document.getElementById('analysisResults').scrollIntoView({ behavior: 'smooth' });
+}
+
+function displayStressKeywords(keywords) {
+    const container = document.getElementById('stressKeywords');
+    container.innerHTML = '';
+    
+    if (keywords.length === 0) {
+        container.innerHTML = '<p class="text-muted">No stress keywords detected. Great job!</p>';
+        return;
+    }
+    
+    keywords.forEach(keyword => {
+        const badge = document.createElement('span');
+        badge.className = 'badge bg-danger me-2 mb-2';
+        badge.textContent = keyword;
+        container.appendChild(badge);
+    });
+}
+
+function displayRecommendations(recommendations) {
+    const container = document.getElementById('recommendations');
+    container.innerHTML = '';
+    
+    recommendations.forEach((rec, index) => {
+        const item = document.createElement('div');
+        item.className = 'recommendation-item';
+        item.innerHTML = `
+            <div class="recommendation-icon">
+                <i class="fas fa-check-circle text-success"></i>
+            </div>
+            <div class="recommendation-text">
+                <p>${rec}</p>
+            </div>
+        `;
+        container.appendChild(item);
+    });
+}
+
+function createEmailPatternChart(analysis) {
+    const ctx = document.getElementById('emailPatternChart').getContext('2d');
+    
+    // Destroy existing chart if it exists
+    if (emailChart) {
+        emailChart.destroy();
+    }
+    
+    // Sample data for demonstration
+    const chartData = {
+        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        datasets: [{
+            label: 'Total Emails',
+            data: [12, 19, 3, 5, 2, 3, 7],
+            borderColor: 'rgb(75, 192, 192)',
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            tension: 0.4
+        }, {
+            label: 'Urgent Emails',
+            data: [2, 3, 0, 1, 1, 0, 1],
+            borderColor: 'rgb(255, 99, 132)',
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            tension: 0.4
+        }]
+    };
+    
+    emailChart = new Chart(ctx, {
+        type: 'line',
+        data: chartData,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Weekly Email Patterns'
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
+
+function createOptimizedSchedule() {
+    showToast('Redirecting to schedule optimizer...', 'info');
+    setTimeout(() => {
+        window.location.href = '/schedule';
+    }, 1000);
+}
+
+function sendWellnessEmail() {
+    showLoading();
+    
+    fetch('/api/send_wellness_nudge', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            type: 'break_reminder',
+            recipient: 'current_user'
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        hideLoading();
+        if (data.success) {
+            showToast('Wellness nudge sent to your email!', 'success');
+        } else {
+            showToast('Failed to send wellness nudge', 'error');
+        }
+    });
+}
+
+function exportAnalysis() {
+    showToast('Export feature coming soon!', 'info');
+}
+
+function showAuthorizationModal(data) {
+    const authUrl = data?.auth_url || 'https://api.arcade.dev/dashboard';
+    
+    const modalHTML = `
+        <div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-warning text-dark">
+                        <h5 class="modal-title" id="authModalLabel">
+                            <i class="fas fa-key me-2"></i>Gmail Authorization Required
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle me-2"></i>
+                            <strong>Good news!</strong> Your arcade.dev credentials are working. You just need to authorize Gmail access.
+                        </div>
+                        
+                        <h6><i class="fas fa-list-ol me-2"></i>Steps to authorize:</h6>
+                        <ol class="mb-3">
+                            <li><strong>Click the button below</strong> to open your arcade.dev dashboard</li>
+                            <li><strong>Find your project/tools section</strong></li>
+                            <li><strong>Authorize Gmail toolkit</strong> when prompted</li>
+                            <li><strong>Return here</strong> and try the analysis again</li>
+                        </ol>
+                        
+                        <div class="text-center">
+                            <a href="${authUrl}" target="_blank" class="btn btn-primary btn-lg">
+                                <i class="fas fa-external-link-alt me-2"></i>
+                                Open Arcade.dev Dashboard
+                            </a>
+                        </div>
+                        
+                        <hr>
+                        <h6><i class="fas fa-question-circle me-2"></i>What happens next?</h6>
+                        <ul class="mb-0">
+                            <li>Arcade.dev will ask you to sign in to your Google account</li>
+                            <li>You'll authorize StudyBalance AI to read your Gmail</li>
+                            <li>Future analyses will use your real email data</li>
+                            <li>Your privacy is protected - only you can authorize access</li>
+                        </ul>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">I'll do this later</button>
+                        <a href="${authUrl}" target="_blank" class="btn btn-primary">
+                            <i class="fas fa-key me-2"></i>Authorize Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Remove existing modal if present
+    const existingModal = document.getElementById('authModal');
+    if (existingModal) {
+        existingModal.remove();
+    }
+    
+    // Add modal to page
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+    
+    // Show modal
+    const modal = new bootstrap.Modal(document.getElementById('authModal'));
+    modal.show();
+    
+    // Also display the analysis results (simulation data) with auth notice
+    if (data.analysis) {
+        displayAnalysisResults(data.analysis);
+    }
+}
+</script>
+{% endblock %}

@@ -1,0 +1,18 @@
+# StudyBalance AI - Dependencies
+# Arcade.dev Hackathon Project
+
+# Core Framework
+Flask==2.3.3
+Werkzeug==2.3.7
+
+# Arcade.dev Integration
+arcadepy>=1.0.0
+
+# Environment Management
+python-dotenv==1.0.0
+
+# Additional Flask Extensions
+flask-cors==4.0.0
+
+# Utility Libraries
+requests==2.31.0

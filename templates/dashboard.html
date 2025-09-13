@@ -1,0 +1,402 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - StudyBalance AI{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="hero-section">
+    <div class="row align-items-center">
+        <div class="col-lg-8">
+            <h1 class="hero-title">
+                <i class="fas fa-graduation-cap text-primary me-3"></i>
+                Welcome to StudyBalance AI
+            </h1>
+            <p class="hero-subtitle">Your intelligent companion for preventing student burnout and optimizing study schedules using Arcade.dev toolkits</p>
+            <div class="hero-badges">
+                <span class="badge bg-primary me-2"><i class="fas fa-envelope me-1"></i>Gmail Analysis</span>
+                <span class="badge bg-success me-2"><i class="fas fa-calendar me-1"></i>Calendar Optimization</span>
+                <span class="badge bg-info"><i class="fas fa-heart me-1"></i>Wellness Nudges</span>
+            </div>
+        </div>
+        <div class="col-lg-4 text-center">
+            <div class="hero-illustration">
+                <i class="fas fa-brain hero-icon"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Stats -->
+<div class="row mb-5">
+    <div class="col-md-3 mb-4">
+        <div class="stat-card">
+            <div class="stat-icon bg-primary">
+                <i class="fas fa-heart-pulse"></i>
+            </div>
+            <div class="stat-content">
+                <h3 class="stat-number" id="wellnessScore">7.5</h3>
+                <p class="stat-label">Wellness Score</p>
+                <div class="stat-badge good">Healthy</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-4">
+        <div class="stat-card">
+            <div class="stat-icon bg-warning">
+                <i class="fas fa-envelope"></i>
+            </div>
+            <div class="stat-content">
+                <h3 class="stat-number" id="emailCount">42</h3>
+                <p class="stat-label">Weekly Emails</p>
+                <div class="stat-badge warning">Monitor</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-4">
+        <div class="stat-card">
+            <div class="stat-icon bg-success">
+                <i class="fas fa-clock"></i>
+            </div>
+            <div class="stat-content">
+                <h3 class="stat-number" id="studyHours">6.5h</h3>
+                <p class="stat-label">Study Time Today</p>
+                <div class="stat-badge good">Optimized</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-4">
+        <div class="stat-card">
+            <div class="stat-icon bg-info">
+                <i class="fas fa-bell"></i>
+            </div>
+            <div class="stat-content">
+                <h3 class="stat-number" id="nudgeCount">3</h3>
+                <p class="stat-label">Wellness Nudges</p>
+                <div class="stat-badge good">Active</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Action Cards -->
+<div class="row mb-5">
+    <div class="col-lg-6 mb-4">
+        <div class="action-card">
+            <div class="card-header">
+                <h5 class="card-title">
+                    <i class="fas fa-chart-line text-primary me-2"></i>
+                    Email Pattern Analysis
+                </h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text">Analyze your Gmail for stress indicators, workload patterns, and burnout risk using Arcade.dev Gmail toolkit.</p>
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle text-success me-2"></i>
+                        Stress keyword detection
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle text-success me-2"></i>
+                        Workload assessment
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle text-success me-2"></i>
+                        Peak hour analysis
+                    </div>
+                </div>
+                <div class="d-grid mt-3">
+                    <a href="{{ url_for('analyze_page') }}" class="btn btn-primary btn-lg">
+                        <i class="fas fa-search me-2"></i>Start Analysis
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-6 mb-4">
+        <div class="action-card">
+            <div class="card-header">
+                <h5 class="card-title">
+                    <i class="fas fa-calendar-plus text-success me-2"></i>
+                    Smart Schedule Optimization
+                </h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text">Create AI-optimized study schedules with perfect break timing using Arcade.dev Calendar toolkit.</p>
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle text-success me-2"></i>
+                        Cognitive science-based timing
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle text-success me-2"></i>
+                        Automatic break scheduling
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle text-success me-2"></i>
+                        Subject difficulty optimization
+                    </div>
+                </div>
+                <div class="d-grid mt-3">
+                    <a href="{{ url_for('schedule_page') }}" class="btn btn-success btn-lg">
+                        <i class="fas fa-magic me-2"></i>Create Schedule
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Actions & Recent Activity -->
+<div class="row">
+    <div class="col-lg-4 mb-4">
+        <div class="quick-actions-card">
+            <div class="card-header">
+                <h5 class="card-title">
+                    <i class="fas fa-bolt text-warning me-2"></i>
+                    Quick Actions
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <button class="btn btn-outline-primary" onclick="requestBreak()">
+                        <i class="fas fa-pause me-2"></i>Request Break Reminder
+                    </button>
+                    <button class="btn btn-outline-success" onclick="addStudySession()">
+                        <i class="fas fa-plus me-2"></i>Add Study Session
+                    </button>
+                    <button class="btn btn-outline-info" onclick="sendWellnessNudge()">
+                        <i class="fas fa-heart me-2"></i>Send Wellness Nudge
+                    </button>
+                    <button class="btn btn-outline-warning" onclick="analyzeStress()">
+                        <i class="fas fa-brain me-2"></i>Quick Stress Check
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-8 mb-4">
+        <div class="recent-activity-card">
+            <div class="card-header">
+                <h5 class="card-title">
+                    <i class="fas fa-clock text-info me-2"></i>
+                    Recent Activity
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="activity-timeline">
+                    <div class="activity-item">
+                        <div class="activity-icon bg-primary">
+                            <i class="fas fa-envelope-open"></i>
+                        </div>
+                        <div class="activity-content">
+                            <h6 class="activity-title">Email Analysis Completed</h6>
+                            <p class="activity-description">Analyzed 67 emails, found 12 stress indicators</p>
+                            <small class="activity-time">2 hours ago</small>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <div class="activity-icon bg-success">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="activity-content">
+                            <h6 class="activity-title">Optimized Schedule Created</h6>
+                            <p class="activity-description">Generated 6-hour study plan with wellness breaks</p>
+                            <small class="activity-time">4 hours ago</small>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <div class="activity-icon bg-info">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <div class="activity-content">
+                            <h6 class="activity-title">Wellness Nudge Sent</h6>
+                            <p class="activity-description">Hydration reminder sent via email</p>
+                            <small class="activity-time">6 hours ago</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Wellness Insights -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="insights-card">
+            <div class="card-header">
+                <h5 class="card-title">
+                    <i class="fas fa-lightbulb text-warning me-2"></i>
+                    Today's Wellness Insights
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="insight-item">
+                            <div class="insight-icon">
+                                <i class="fas fa-trophy text-warning"></i>
+                            </div>
+                            <div class="insight-content">
+                                <h6>Great Progress!</h6>
+                                <p>You've maintained good study-break balance today.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="insight-item">
+                            <div class="insight-icon">
+                                <i class="fas fa-exclamation-triangle text-orange"></i>
+                            </div>
+                            <div class="insight-content">
+                                <h6>Hydration Alert</h6>
+                                <p>Consider drinking more water during study sessions.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="insight-item">
+                            <div class="insight-icon">
+                                <i class="fas fa-moon text-purple"></i>
+                            </div>
+                            <div class="insight-content">
+                                <h6>Sleep Reminder</h6>
+                                <p>Aim for 7-8 hours of sleep for optimal learning.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Dashboard functionality
+document.addEventListener('DOMContentLoaded', function() {
+    // Load dashboard stats
+    loadDashboardStats();
+    
+    // Auto-refresh every 5 minutes
+    setInterval(loadDashboardStats, 300000);
+});
+
+async function loadDashboardStats() {
+    try {
+        const response = await fetch('/api/dashboard_stats');
+        const data = await response.json();
+        
+        if (data.success) {
+            updateStats(data.stats);
+        }
+    } catch (error) {
+        console.error('Error loading dashboard stats:', error);
+    }
+}
+
+function updateStats(stats) {
+    document.getElementById('wellnessScore').textContent = stats.wellness_score || '7.5';
+    document.getElementById('emailCount').textContent = stats.weekly_emails || '42';
+    document.getElementById('studyHours').textContent = stats.study_hours_today || '6.5h';
+    document.getElementById('nudgeCount').textContent = stats.active_nudges || '3';
+}
+
+function requestBreak() {
+    showLoading();
+    
+    fetch('/api/send_wellness_nudge', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            type: 'break_reminder',
+            recipient: 'current_user'
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        hideLoading();
+        if (data.success) {
+            showToast('Break reminder sent! Take a 10-minute break to recharge.', 'success');
+        } else {
+            showToast('Failed to send break reminder. Please try again.', 'error');
+        }
+    })
+    .catch(error => {
+        hideLoading();
+        showToast('Error sending break reminder.', 'error');
+    });
+}
+
+function addStudySession() {
+    const now = new Date();
+    const startTime = now.toTimeString().slice(0, 5);
+    const endTime = new Date(now.getTime() + 90 * 60000).toTimeString().slice(0, 5);
+    
+    if (confirm(`Add a study session from ${startTime} to ${endTime}?`)) {
+        showLoading();
+        
+        fetch('/api/send_calendar_event', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                title: 'Study Session',
+                start_time: startTime,
+                end_time: endTime,
+                description: 'Optimized study session created by StudyBalance AI'
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            hideLoading();
+            if (data.success) {
+                showToast('Study session added to your calendar!', 'success');
+            } else {
+                showToast('Failed to add study session.', 'error');
+            }
+        });
+    }
+}
+
+function sendWellnessNudge() {
+    showLoading();
+    
+    fetch('/api/send_wellness_nudge', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            type: 'motivation',
+            recipient: 'current_user'
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        hideLoading();
+        if (data.success) {
+            showToast('Motivation boost sent to your email! 🚀', 'success');
+        } else {
+            showToast('Failed to send wellness nudge.', 'error');
+        }
+    });
+}
+
+function analyzeStress() {
+    showLoading();
+    window.location.href = '/analyze';
+}
+</script>
+{% endblock %}

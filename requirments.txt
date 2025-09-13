@@ -1,0 +1,19 @@
+# Core Flask web framework
+Flask==2.3.3
+python-dotenv==1.0.0
+
+# Arcade.dev toolkit integration (REAL INTEGRATION)
+arcadepy>=1.0.0
+
+# For async operations
+aiohttp==3.9.5
+asyncio-mqtt==0.16.1
+
+# Date/time handling
+python-dateutil==2.8.2
+
+# HTTP requests
+requests==2.31.0
+
+# JSON validation
+jsonschema==4.19.1
