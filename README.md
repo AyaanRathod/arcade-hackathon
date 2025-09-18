@@ -1,4 +1,4 @@
-# 🎓 StudyBalance AI - Arcade Hackathon Submission
+# 🎓 StudyBalance AI - Mindhack Hackathon Submission
 
 > **AI-Powered Student Burnout Prevention System using Arcade.dev Toolkits**
 
@@ -202,8 +202,7 @@ This project was built for the **Arcade.dev Hackathon** to demonstrate real-worl
 ## 📧 Contact
 
 **Developer**: AyaanRathod  
-**Email**: ayaanrathod466@gmail.com  
-**Hackathon**: Arcade.dev Integration Challenge
+**Hackathon**: MindHack Hackathon sponsored by Arcade.dev Integration Challenge
 
 ## 🏆 Hackathon Submission
 
