@@ -4,8 +4,6 @@
 
 StudyBalance AI is an intelligent web application that helps students prevent burnout by analyzing their email patterns, optimizing study schedules, and sending personalized wellness nudges - all powered by **Arcade.dev Gmail and Google Calendar toolkits**.
 
-![StudyBalance AI Dashboard](https://img.shields.io/badge/Status-Ready%20for%20Demo-brightgreen)
-![Arcade.dev Integration](https://img.shields.io/badge/Arcade.dev-Integrated-blue)
 ![Python](https://img.shields.io/badge/Python-3.11+-blue)
 ![Flask](https://img.shields.io/badge/Flask-2.3.3-green)
 
